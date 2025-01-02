@@ -68,7 +68,7 @@ const Collection = () => {
     }
 
     useEffect(() => {
-      sortProduct()
+      sortProduct ()
       }, [sortType])
 
   return (
