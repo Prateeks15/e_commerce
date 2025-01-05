@@ -1,5 +1,6 @@
 import React from 'react'
 import Title from '../components/Title';
+import NewsLetterBox from '../components/NewsLetterBox';
 import { assets } from '../assets/assets';
 
 const About = () => {
@@ -36,8 +37,8 @@ const About = () => {
           <p className='text-gray-600'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy t</p>
         </div>
       </div>
+      <NewsLetterBox />
 
-      
     </div>
   )
 }
