@@ -8,8 +8,9 @@
 /.vscode
 
 # Ignore .env files in backend and frontend
+/backend/node_modules/
 /backend/.env
-/frontend/.env
+
 
 
 # testing
