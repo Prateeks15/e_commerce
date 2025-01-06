@@ -9,6 +9,10 @@ node_modules/
 /.idea
 /.vscode
 
+# Ignore .env files in backend and frontend
+/backend/.env
+/frontend/.env
+
 
 
 # testing
