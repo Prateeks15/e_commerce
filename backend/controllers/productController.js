@@ -60,13 +60,26 @@ const addProduct = async (req, res) => {
 // List Product
 
 const listProducts = async (req, res) => {
-    
+    try {
+        const products = await productModel.find({ });
+        res.json(({ success: true, products  }));
+    } catch (error) {
+        res.json({ message: 'not working list product' })
+        console.log(error);
+    }
 }
 
 // Remove Product
 
 const removeProduct = async (req, res) => {
+    try {
 
+        await productModel.findByIdAndDelete(req.body.id)
+        res.json({ success: true, message: 'Product Removed' });
+    } catch (error) {
+        res.json({ message: 'not working remove product' })
+        console.log(error);
+    }
 }
 
 // Get  Product Info
