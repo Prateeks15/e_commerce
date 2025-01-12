@@ -85,7 +85,13 @@ const removeProduct = async (req, res) => {
 // Get  Product Info
 
 const singleProduct = async (req, res) => {
-
+    try {
+        const product = await productModel.findById(req.body.productId)
+        res.json({ success: true, product });
+    } catch (error) {
+         res.json({ message: 'not working single product' })
+        console.log(error);
+    }
 }
 
 export { addProduct, listProducts, removeProduct, singleProduct };
