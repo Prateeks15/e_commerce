@@ -9,16 +9,17 @@ import Navbar from './components/Navbar';
 
 const App = () => {
   return (
-    <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
-      <ToastContainer />
+    <div className='bg-gray-50 min-h-screen'>
+      <>
       <Navbar />
-      {/* <SearchBar />  */}
+     <hr />
       <Routes>
         <Route path='/add' element={<Add />} />
         <Route path='/list' element={<List />} />
         <Route path='/orders' element={<Orders />} />
       </Routes>
       {/* <Footer /> */}
+      </>
     </div>
   )
 }
