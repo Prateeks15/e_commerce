@@ -18,13 +18,10 @@ const Add = () => {
   const [sizes, setSizes] = useState([]);
 
   const handleSizes = (size) => {
-    console.log(size, "soizetype");
-    debugger
     let sizeArr = [...sizes];
     if(sizes.includes(size)) {
-      sizeArr.filter(item => item !== size);
-      setSizes(sizeArr);
-
+      let arr =  sizeArr.filter(item => item !== size);
+      setSizes(arr);
     } else {
       sizeArr.push(size);
       setSizes(sizeArr);
@@ -104,19 +101,19 @@ const Add = () => {
       <div>
         <p className='mb-2'>Product Sizes</p>
         <div className='flex gap-3'>
-          <div onClick={() => handleSizes('S')}>
+          <div onClick={() => handleSizes("S")}>
             <p className='bg-slate-200 px-3 py-1 cursor-pointer'>S</p>
           </div>
-          <div onClick={() => handleSizes('M')}>
+          <div onClick={() => handleSizes("M")}>
             <p className='bg-slate-200 px-3 py-1 cursor-pointer'>M</p>
           </div>
-          <div onClick={() => handleSizes('L')}>
+          <div onClick={() => handleSizes("L")}>
             <p className='bg-slate-200 px-3 py-1 cursor-pointer'>L</p>
           </div>
-          <div onClick={() => handleSizes('XL')}>
+          <div onClick={() => handleSizes("XL")}>
             <p className='bg-slate-200 px-3 py-1 cursor-pointer'>XL</p>
           </div>
-          <div onClick={() => handleSizes('XXL')}>
+          <div onClick={() => handleSizes("XXL")}>
             <p className='bg-slate-200 px-3 py-1 cursor-pointer'>XXL</p>
           </div>
         </div>
