@@ -1,9 +1,11 @@
 import React from 'react'
 import { assets } from '../assets/assets';
 import { useState } from 'react';
+import axios from 'axios';
+import { backendUrl } from '../App';
+import { toast } from 'react-toastify';
 
-
-const Add = () => {
+const Add = ({ token }) => {
   const [image1, setImage1] = useState(false);
   const [image2, setImage2] = useState(false);
   const [image3, setImage3] = useState(false);
@@ -28,12 +30,58 @@ const Add = () => {
 
     }
   }
+  
+  const onSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("description", description);
+        formData.append("price", price);
+        formData.append("category", category);
+        formData.append("subCategory", subCategory);
+        formData.append("bestseller", bestseller);
+        formData.append("sizes", JSON.stringify(sizes));
 
-  console.log(sizes, "sozes");
+        image1 && formData.append("image1", image1);
+        image2 && formData.append("image2", image2);
+        image3 && formData.append("image3", image3);
+        image4 && formData.append("image4", image4);
+        
+
+        const response = await axios.post(backendUrl + '/api/product/add', formData, { headers: { token }});
+        console.log(response, "res");
+        
+        if(response.data.success) {
+          toast.success(response.data.message);
+          setName('');
+          setDescription('')
+          setBestSeller(false)
+          setImage1(false);
+          setImage2(false);
+          setImage3(false);
+          setImage4(false);
+          setPrice('')
+          setCategory('Men')
+          setSubCategory('Topwear');
+          setSizes([]);
+        } else {
+          toast.error(response.data.message);
+        }
+        
+
+
+      } catch (error) {
+        console.log(error);
+        toast.error(error.message)
+        
+      }
+  }
+  console.log(bestseller, "sozes");
   
 
   return (
-    <form className='flex flex-col w-full items-start gap-3'>
+    <form onSubmit={onSubmit} className='flex flex-col w-full items-start gap-3'>
       <div>
         <p className='mb-2'>Upload Image</p>
         <div className='flex gap-2'>
@@ -102,27 +150,27 @@ const Add = () => {
         <p className='mb-2'>Product Sizes</p>
         <div className='flex gap-3'>
           <div onClick={() => handleSizes("S")}>
-            <p className='bg-slate-200 px-3 py-1 cursor-pointer'>S</p>
+            <p className={`${sizes.includes("S") ? 'bg-pink-100' : 'bg-slate-200'} px-3 py-1 cursor-pointer`}>S</p>
           </div>
           <div onClick={() => handleSizes("M")}>
-            <p className='bg-slate-200 px-3 py-1 cursor-pointer'>M</p>
+          <p className={`${sizes.includes("M") ? 'bg-pink-100' : 'bg-slate-200'} px-3 py-1 cursor-pointer`}>M</p>
           </div>
           <div onClick={() => handleSizes("L")}>
-            <p className='bg-slate-200 px-3 py-1 cursor-pointer'>L</p>
+          <p className={`${sizes.includes("L") ? 'bg-pink-100' : 'bg-slate-200'} px-3 py-1 cursor-pointer`}>L</p>
           </div>
           <div onClick={() => handleSizes("XL")}>
-            <p className='bg-slate-200 px-3 py-1 cursor-pointer'>XL</p>
+          <p className={`${sizes.includes("XL") ? 'bg-pink-100' : 'bg-slate-200'} px-3 py-1 cursor-pointer`}>XL</p>
           </div>
           <div onClick={() => handleSizes("XXL")}>
-            <p className='bg-slate-200 px-3 py-1 cursor-pointer'>XXL</p>
+          <p className={`${sizes.includes("XXL") ? 'bg-pink-100' : 'bg-slate-200'} px-3 py-1 cursor-pointer`}>XXL</p>
           </div>
         </div>
       </div>
 
 
       <div className='flex gap-2 mt-2'>
-        <input type='checkbox' id="bestseller" />
-        <label className='cursor-pointer ' htmlFor='bestseller'>Add to Bestseller</label>
+        <input checked={bestseller} onChange={(e)  => setBestSeller(!bestseller)} type='checkbox' id="bestseller" />
+        <label className='cursor-pointer' htmlFor='bestseller'>Add to Bestseller</label>
       </div>
 
       <button className='w-28 py-3 mt-4 bg-black text-white' type='submit'>ADD</button>
