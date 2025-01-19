@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { backendUrl } from '../App';
 import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 const Add = ({ token }) => {
   const [image1, setImage1] = useState(false);
@@ -78,6 +79,10 @@ const Add = ({ token }) => {
     }
   }
   console.log(bestseller, "sozes");
+
+  useEffect(() => {
+
+  }, [])
 
 
   return (
