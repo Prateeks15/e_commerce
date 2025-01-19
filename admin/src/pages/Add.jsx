@@ -21,8 +21,8 @@ const Add = ({ token }) => {
 
   const handleSizes = (size) => {
     let sizeArr = [...sizes];
-    if(sizes.includes(size)) {
-      let arr =  sizeArr.filter(item => item !== size);
+    if (sizes.includes(size)) {
+      let arr = sizeArr.filter(item => item !== size);
       setSizes(arr);
     } else {
       sizeArr.push(size);
@@ -30,55 +30,55 @@ const Add = ({ token }) => {
 
     }
   }
-  
+
   const onSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        const formData = new FormData();
-        formData.append("name", name);
-        formData.append("description", description);
-        formData.append("price", price);
-        formData.append("category", category);
-        formData.append("subCategory", subCategory);
-        formData.append("bestseller", bestseller);
-        formData.append("sizes", JSON.stringify(sizes));
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("price", price);
+      formData.append("category", category);
+      formData.append("subCategory", subCategory);
+      formData.append("bestseller", bestseller);
+      formData.append("sizes", JSON.stringify(sizes));
 
-        image1 && formData.append("image1", image1);
-        image2 && formData.append("image2", image2);
-        image3 && formData.append("image3", image3);
-        image4 && formData.append("image4", image4);
-        
-
-        const response = await axios.post(backendUrl + '/api/product/add', formData, { headers: { token }});
-        console.log(response, "res");
-        
-        if(response.data.success) {
-          toast.success(response.data.message);
-          setName('');
-          setDescription('')
-          setBestSeller(false)
-          setImage1(false);
-          setImage2(false);
-          setImage3(false);
-          setImage4(false);
-          setPrice('')
-          setCategory('Men')
-          setSubCategory('Topwear');
-          setSizes([]);
-        } else {
-          toast.error(response.data.message);
-        }
-        
+      image1 && formData.append("image1", image1);
+      image2 && formData.append("image2", image2);
+      image3 && formData.append("image3", image3);
+      image4 && formData.append("image4", image4);
 
 
-      } catch (error) {
-        console.log(error);
-        toast.error(error.message)
-        
+      const response = await axios.post(backendUrl + '/api/product/add', formData, { headers: { token } });
+      console.log(response, "res");
+
+      if (response.data.success) {
+        toast.success(response.data.message);
+        setName('');
+        setDescription('')
+        setBestSeller(false)
+        setImage1(false);
+        setImage2(false);
+        setImage3(false);
+        setImage4(false);
+        setPrice('')
+        setCategory('Men')
+        setSubCategory('Topwear');
+        setSizes([]);
+      } else {
+        toast.error(response.data.message);
       }
+
+
+
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message)
+
+    }
   }
   console.log(bestseller, "sozes");
-  
+
 
   return (
     <form onSubmit={onSubmit} className='flex flex-col w-full items-start gap-3'>
@@ -86,19 +86,19 @@ const Add = ({ token }) => {
         <p className='mb-2'>Upload Image</p>
         <div className='flex gap-2'>
           <label htmlFor='image1'>
-            <img className='w-20' src={!image1 ? assets.upload_area: URL.createObjectURL(image1)} />
-            <input  onChange={(e) => setImage1(e.target.files[0])} type='file' id='image1' hidden />
+            <img className='w-20' src={!image1 ? assets.upload_area : URL.createObjectURL(image1)} />
+            <input onChange={(e) => setImage1(e.target.files[0])} type='file' id='image1' hidden />
           </label>
           <label htmlFor='image2'>
-            <img className='w-20' src={!image2 ? assets.upload_area: URL.createObjectURL(image2)} />
-            <input  onChange={(e) => setImage2(e.target.files[0])} type='file' id='image2' hidden />
+            <img className='w-20' src={!image2 ? assets.upload_area : URL.createObjectURL(image2)} />
+            <input onChange={(e) => setImage2(e.target.files[0])} type='file' id='image2' hidden />
           </label>
           <label htmlFor='image3'>
-            <img className='w-20' src={!image3 ? assets.upload_area: URL.createObjectURL(image3)} />
+            <img className='w-20' src={!image3 ? assets.upload_area : URL.createObjectURL(image3)} />
             <input onChange={(e) => setImage3(e.target.files[0])} type='file' id='image3' hidden />
           </label>
           <label htmlFor='image4'>
-            <img className='w-20' src={!image4 ? assets.upload_area: URL.createObjectURL(image4)} />
+            <img className='w-20' src={!image4 ? assets.upload_area : URL.createObjectURL(image4)} />
             <input onChange={(e) => setImage4(e.target.files[0])} type='file' id='image4' hidden />
           </label>
 
@@ -153,23 +153,23 @@ const Add = ({ token }) => {
             <p className={`${sizes.includes("S") ? 'bg-pink-100' : 'bg-slate-200'} px-3 py-1 cursor-pointer`}>S</p>
           </div>
           <div onClick={() => handleSizes("M")}>
-          <p className={`${sizes.includes("M") ? 'bg-pink-100' : 'bg-slate-200'} px-3 py-1 cursor-pointer`}>M</p>
+            <p className={`${sizes.includes("M") ? 'bg-pink-100' : 'bg-slate-200'} px-3 py-1 cursor-pointer`}>M</p>
           </div>
           <div onClick={() => handleSizes("L")}>
-          <p className={`${sizes.includes("L") ? 'bg-pink-100' : 'bg-slate-200'} px-3 py-1 cursor-pointer`}>L</p>
+            <p className={`${sizes.includes("L") ? 'bg-pink-100' : 'bg-slate-200'} px-3 py-1 cursor-pointer`}>L</p>
           </div>
           <div onClick={() => handleSizes("XL")}>
-          <p className={`${sizes.includes("XL") ? 'bg-pink-100' : 'bg-slate-200'} px-3 py-1 cursor-pointer`}>XL</p>
+            <p className={`${sizes.includes("XL") ? 'bg-pink-100' : 'bg-slate-200'} px-3 py-1 cursor-pointer`}>XL</p>
           </div>
           <div onClick={() => handleSizes("XXL")}>
-          <p className={`${sizes.includes("XXL") ? 'bg-pink-100' : 'bg-slate-200'} px-3 py-1 cursor-pointer`}>XXL</p>
+            <p className={`${sizes.includes("XXL") ? 'bg-pink-100' : 'bg-slate-200'} px-3 py-1 cursor-pointer`}>XXL</p>
           </div>
         </div>
       </div>
 
 
       <div className='flex gap-2 mt-2'>
-        <input checked={bestseller} onChange={(e)  => setBestSeller(!bestseller)} type='checkbox' id="bestseller" />
+        <input checked={bestseller} onChange={(e) => setBestSeller(!bestseller)} type='checkbox' id="bestseller" />
         <label className='cursor-pointer' htmlFor='bestseller'>Add to Bestseller</label>
       </div>
 
