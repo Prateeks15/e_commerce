@@ -16,8 +16,10 @@ const ShopContextProvider = (props) => {
    const [showSearch, setShowSearch] = useState(false);
    const [cartItems, setCartItems] = useState({});
    const [products, setProducts] = useState([]);
-   const [token, setToken] = useState(pwToken ? pwToken : '');
+   const [token, setToken] = useState('');
    const navigate = useNavigate()
+
+  
 
    const addToCart = async (itemId, size) => {
 
@@ -39,6 +41,15 @@ const ShopContextProvider = (props) => {
         }
         setCartItems(cartData);
 
+        if (token) {
+          try {
+            await axios.post(backendUrl + '/api/cart/add', { itemId, size }, { headers: { token } });
+          } catch (error) {
+            console.log(error);
+            toast.error(error.message);
+          }
+        }
+
    }
 
    const getCartCount = () => {
@@ -58,6 +69,19 @@ const ShopContextProvider = (props) => {
      return totalCount;
    }
 
+   const getUserCart = async (token) => {
+    try {
+      const res = await axios.post(backendUrl + '/api/cart/get', {}, { headers: { token } });
+      
+      if(res.data.success) {
+        setCartItems(res.data.cartData);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message)
+    }
+   }
+
    useEffect(() => {
      console.log(cartItems, "ites=>");
      
@@ -67,6 +91,16 @@ const ShopContextProvider = (props) => {
       let cartData = structuredClone(cartItems);
       cartData[itemId][size] = quantity;
       setCartItems(cartData);
+
+      if (token) {
+        try {
+          await axios.post(backendUrl + '/api/cart/update', { itemId, size, quantity }, { headers: { token }})    
+        } catch (error) {
+          console.log(error);
+          toast.error(error.message)
+          
+        }
+      }
    }
 
    const getCartAmount = () => {
@@ -102,6 +136,13 @@ const ShopContextProvider = (props) => {
       setProducts([])
     }
    } 
+
+   useEffect(() => {
+    if (!token && pwToken) {
+      setToken(pwToken)
+      getUserCart(pwToken)
+    }
+   }, [])
 
    useEffect(() => {
       getProductsData()

@@ -6,7 +6,28 @@ import { ShopContext } from '../context/ShopContext'
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState('cod');
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    street: '',
+    city: '',
+    state: '',
+    zipcode: '',
+    country: '',
+    phone: ''
+
+  });
   const { navigate } = useContext(ShopContext)
+
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  }
+
+  console.log(formData, "data");
+  
 
   return (
     <div className='flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] border-t'>
@@ -16,23 +37,23 @@ const PlaceOrder = () => {
           <Title text1={'DELIVERY'} text2={'INFORMATION'} />
         </div>
         <div className='flex gap-3 my-2'>
-          <input type='text' placeholder='First name' className='border border-gray-300 px-3.5 rounded py-1.5 w-full' />
-          <input type='text' placeholder='Last name' className='border border-gray-300 rounded px-3.5 py-1.5 w-full' />
+          <input required type='text' name='firstName' onChange={handleChange} value={formData.firstName} placeholder='First name' className='border border-gray-300 px-3.5 rounded py-1.5 w-full' />
+          <input required type='text' name='lastName' onChange={handleChange} value={formData.lastName} placeholder='Last name' className='border border-gray-300 rounded px-3.5 py-1.5 w-full' />
 
         </div>
-        <input type='email' placeholder='Email address' className='border my-2 border-gray-300 px-3.5 rounded py-1.5 w-full' />
-        <input type='text' placeholder='Street' className='border border-gray-300 px-3.5 rounded py-1.5 w-full' />
+        <input required type='email' name='email' onChange={handleChange} value={formData.email} placeholder='Email address' className='border my-2 border-gray-300 px-3.5 rounded py-1.5 w-full' />
+        <input required type='text' name='street' onChange={handleChange} value={formData.street} placeholder='Street' className='border border-gray-300 px-3.5 rounded py-1.5 w-full' />
         <div className='flex gap-3 my-2'>
-          <input type='text' placeholder='City' className='border border-gray-300 px-3.5 rounded py-1.5 w-full' />
-          <input type='text' placeholder='State' className='border border-gray-300 rounded px-3.5 py-1.5 w-full' />
+          <input required type='text' name='city' onChange={handleChange} value={formData.city} placeholder='City' className='border border-gray-300 px-3.5 rounded py-1.5 w-full' />
+          <input required type='text' name='state' onChange={handleChange} value={formData.state} placeholder='State' className='border border-gray-300 rounded px-3.5 py-1.5 w-full' />
 
         </div>
         <div className='flex gap-3 my-2'>
-          <input type='number' placeholder='ZipCode' className='border border-gray-300 px-3.5 rounded py-1.5 w-full' />
-          <input type='text' placeholder='Country' className='border border-gray-300 rounded px-3.5 py-1.5 w-full' />
+          <input required type='number' name='zipcode' onChange={handleChange} value={formData.zipcode} placeholder='ZipCode' className='border border-gray-300 px-3.5 rounded py-1.5 w-full' />
+          <input required type='text' name='country' onChange={handleChange} value={formData.country} placeholder='Country' className='border border-gray-300 rounded px-3.5 py-1.5 w-full' />
 
         </div>
-        <input type='number' placeholder='Phone' className='border border-gray-300 px-3.5 rounded py-1.5 w-full' />
+        <input required type='phone' name='phone' onChange={handleChange} value={formData.phone} placeholder='Phone' className='border border-gray-300 px-3.5 rounded py-1.5 w-full' />
 
       </div>
 
@@ -68,7 +89,7 @@ const PlaceOrder = () => {
             </div>
           </div>
           <div className='w-full text-end mt-8'>
-            <button onClick={() => navigate('/orders')} className='bg-black text-white px-16 py-3 text-sm'>Place Order</button>
+            <button type="submit" className='bg-black text-white px-16 py-3 text-sm'>Place Order</button>
           </div>
         </div>
       </div>
