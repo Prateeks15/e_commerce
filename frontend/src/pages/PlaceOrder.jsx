@@ -23,7 +23,7 @@ const PlaceOrder = () => {
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setFormData(prev => ({ ...prev, [name]: value }));
+     setFormData(prev => ({ ...prev, [name]: value }));
   }
 
   console.log(formData, "data");
