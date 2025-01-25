@@ -3,6 +3,8 @@ import Title from '../components/Title'
 import CartTotal from '../components/CartTotal'
 import { assets } from '../assets/assets'
 import { ShopContext } from '../context/ShopContext'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState('cod');
@@ -18,19 +20,74 @@ const PlaceOrder = () => {
     phone: ''
 
   });
-  const { navigate } = useContext(ShopContext)
+  const { navigate, backendUrl, token, cartItems, setCartItems, getCartAmount, delivery_fee, products } = useContext(ShopContext)
 
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-     setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   }
 
   console.log(formData, "data");
-  
+
+  const initCod = async (orderData) => {
+    try {
+      const res = await axios.post(backendUrl + '/api/order/cod', orderData, { headers: { token } });
+      if (res.data.success) {
+        setCartItems({});
+        navigate('/orders');
+      } else {
+        toast.error(res.data.message)
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+
+  }
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let orderItems = [];
+
+      for (const items in cartItems) {
+        for (const item in cartItems[items]) {
+          if (cartItems[items][item] > 0) {
+            const itemInfo = structuredClone(products.find(product => product._id === items));
+            if (itemInfo) {
+              itemInfo.size = item;
+              itemInfo.quantity = cartItems[items][item];
+              orderItems.push(itemInfo)
+            }
+          }
+        }
+      }
+
+      let orderData = {
+        address: formData,
+        items: orderItems,
+        amount: getCartAmount() + delivery_fee,
+      }
+
+      switch (method) {
+        // API CALLS for COD
+        case 'cod':
+          initCod(orderData);
+          break;
+
+        default:
+          break
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+      
+    }
+  }
+
 
   return (
-    <div className='flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] border-t'>
+    <form onSubmit={onSubmit} className='flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] border-t'>
       {/* Left Side  */}
       <div className='flex- flex-col gap-4 w-full sm:max-w-[480px]'>
         <div className='text-xl sm:text-2xl my-3'>
@@ -94,7 +151,7 @@ const PlaceOrder = () => {
         </div>
       </div>
 
-    </div>
+    </form>
   )
 }
 
