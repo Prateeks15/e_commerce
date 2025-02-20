@@ -45,6 +45,16 @@ const PlaceOrder = () => {
 
   }
 
+  const stripe = async (orderData) => {
+    const res = await axios.post(backendUrl + '/api/order/stripe', orderData, { headers: { token }});
+    if(res.data.success) {
+      const { session_url } = res.data;
+      window.location.replace(session_url);
+    } else {
+      toast.error(res.data.message);
+    }
+  }
+
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -74,6 +84,9 @@ const PlaceOrder = () => {
         case 'cod':
           initCod(orderData);
           break;
+        case 'stripe':
+          stripe(orderData);
+        break;
 
         default:
           break
